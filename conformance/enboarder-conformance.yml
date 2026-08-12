@@ -1,0 +1,99 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/collections/2404029-enboarder-api-docs
+note: >-
+  Enboarder publishes no OpenAPI, so nothing here is derived from a spec. Each assertion
+  is grounded in the provider's own published documentation or in a live probe.
+standards:
+- id: scim2
+  name: SCIM 2.0 (RFC 7643 / RFC 7644)
+  conforms: partial
+  evidence: >-
+    "Enboarder currently supports SCIM 2.0". Serves the standard discovery triad
+    /scim/v2/ServiceProviderConfig, /scim/v2/ResourceTypes and /scim/v2/Schemas plus the
+    /scim/v2/Users resource. The published ServiceProviderConfig reports
+    bulk "supported": false, filter "supported": false and sort "supported": false, and
+    no /scim/v2/Groups resource is documented — so it is a partial SCIM 2.0 profile.
+  source: https://help.enboarder.com/en/articles/5890669-scim-api-user-provisioning-and-management
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: >-
+    Client-credentials grant against /oauth2/token on regional auth hosts; documented
+    scope string "api/workflow.basic api/workflow.advance api/settings.all"; 1-hour
+    token lifetime.
+  source: https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+- id: rfc8414-authorization-server-metadata
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: false
+  evidence: 'Probed 2026-08-12: https://auth.ore.e1.enboarder.com/.well-known/oauth-authorization-server returns 404.'
+- id: oidc
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: 'Probed 2026-08-12: /.well-known/openid-configuration returns 404 on the auth host and on enboarder.com.'
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Errors are returned as a flat {"message": "..."} JSON object (profile endpoints add a
+    symbolic `code`); no application/problem+json media type is documented.
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: 'Probed 2026-08-12: https://enboarder.com/.well-known/security.txt returns 404.'
+- id: rfc8594-sunset-header
+  name: RFC 8594 Sunset HTTP Header
+  conforms: false
+  evidence: No deprecation policy or Sunset/Deprecation header support is documented.
+- id: openapi
+  name: OpenAPI Specification
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document published. Probed /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc on all four regional API
+    hosts (all 403) and on the auth host (all 404) on 2026-08-12. Documentation is
+    hand-written HTML articles in an Intercom support centre.
+- id: graphql
+  name: GraphQL
+  conforms: false
+  evidence: No GraphQL surface is documented or advertised.
+- id: mcp
+  name: Model Context Protocol
+  conforms: false
+  evidence: >-
+    No hosted MCP server found. Enboarder markets "Agentic AI" as in-product AI agents
+    for employee journeys, not as an external agent-callable protocol surface.
+- id: webhooks
+  name: Outbound webhooks
+  conforms: true
+  evidence: >-
+    First-class Webhook module configurable per workflow with destination URL, custom
+    headers, POST/PUT/GET, and a JSON body built from dynamic employee/form tokens.
+  source: https://help.enboarder.com/en/articles/2938834-modules-webhook
+compliance_programs:
+- name: SOC 2 Type II
+  authority: AICPA
+  published: true
+  source: https://enboarder.com/legal/security/
+- name: ISO/IEC 27001:2022
+  authority: ISO/IEC
+  published: true
+  source: https://enboarder.com/legal/security/
+- name: GDPR
+  authority: EU
+  published: true
+  source: https://enboarder.com/trust/
+- name: CCPA
+  authority: State of California
+  published: true
+  source: https://enboarder.com/trust/
+data_residency:
+  regions:
+  - United States
+  - Europe
+  - Asia-Pacific
+  - Canada
+  detail: >-
+    Dedicated regional storage; "data is subject to the laws and regulations of that
+    area". Residency is enforced at the API layer through region-scoped base hosts.
+  source: https://enboarder.com/legal/security/

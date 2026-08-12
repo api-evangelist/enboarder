@@ -1,0 +1,86 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+docs: https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+note: >-
+  Derived from the provider's published Authentication & Overview article and the SCIM
+  API article. Enboarder publishes no OpenAPI, so no securitySchemes could be read from
+  a machine-readable contract; every scheme below is transcribed from the documentation.
+summary:
+  types:
+  - apiKey
+  - oauth2
+  - http
+  api_key_in:
+  - header
+  oauth2_flows:
+  - clientCredentials
+  transport: HTTPS only
+schemes:
+- name: apikey
+  type: apiKey
+  in: header
+  parameter_name: apikey
+  description: >-
+    Account-level API key sent in the `apikey` request header alongside
+    `Content-Type: application/json`. Authenticates the v1 URI family
+    (/restapi/v1/*, /reports/*). REST API access can be toggled on or off per account
+    under Settings / Integration.
+  applies_to:
+  - /restapi/v1/*
+  - /reports/*
+  sources:
+  - https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+- name: oauth2-client-credentials
+  type: oauth2
+  flow: clientCredentials
+  description: >-
+    OAuth 2.0 client credentials grant. Authenticates the v2 URI family
+    (/restapi/v2/*, /reports/v2/*). The access token is sent in the `Authorization`
+    header. The documentation states the token is valid for 1 hour.
+  token_validity_seconds: 3600
+  token_urls:
+  - region: AU
+    url: https://auth.syd.e1.enboarder.com/oauth2/token
+  - region: EU
+    url: https://auth.fra.e1.enboarder.com/oauth2/token
+  - region: US
+    url: https://auth.ore.e1.enboarder.com/oauth2/token
+  scopes_documented:
+  - api/workflow.basic
+  - api/workflow.advance
+  - api/settings.all
+  applies_to:
+  - /restapi/v2/*
+  - /reports/v2/*
+  sources:
+  - https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+- name: scim-bearer
+  type: http
+  scheme: bearer
+  description: OAuth bearer token accepted on the SCIM 2.0 endpoints.
+  applies_to:
+  - /scim/v2/*
+  sources:
+  - https://help.enboarder.com/en/articles/5890669-scim-api-user-provisioning-and-management
+- name: scim-basic
+  type: http
+  scheme: basic
+  description: HTTP Basic authentication accepted on the SCIM 2.0 endpoints.
+  applies_to:
+  - /scim/v2/*
+  sources:
+  - https://help.enboarder.com/en/articles/5890669-scim-api-user-provisioning-and-management
+regions:
+- region: AU
+  api_host: https://api.syd.e1.enboarder.com
+- region: EU
+  api_host: https://api.fra.e1.enboarder.com
+- region: US
+  api_host: https://api.ore.e1.enboarder.com
+- region: CA
+  api_host: https://api.can.e1.enboarder.com
+gaps:
+- No OIDC discovery document is served on the auth hosts (/.well-known/openid-configuration returns 404).
+- No RFC 8414 authorization-server metadata is served (/.well-known/oauth-authorization-server returns 404).
+- No CA OAuth token host is published in the documentation; only AU, EU and US token URLs are listed.

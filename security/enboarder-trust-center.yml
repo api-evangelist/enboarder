@@ -1,0 +1,53 @@
+generated: '2026-08-12'
+method: searched
+probe: true
+source: https://enboarder.com/trust/
+url: https://enboarder.com/trust/
+note: >-
+  Enboarder runs no third-party trust portal (trust.enboarder.com does not resolve) and no
+  automated trust-center probe hit. The compliance posture is published across two
+  first-party pages — the Trust page and the Legal Centre security page — which is what
+  this artifact records.
+pages:
+- url: https://enboarder.com/trust/
+  http_status: 200
+  role: trust overview
+- url: https://enboarder.com/legal/security/
+  http_status: 200
+  role: security detail (certifications, data residency)
+- url: https://enboarder.com/legal/
+  http_status: 200
+  role: legal centre index
+certifications:
+- name: SOC 2 Type II
+  authority: AICPA
+  source: https://enboarder.com/legal/security/
+  detail: >-
+    "SOC 2 Type II Audit is a third-party audit that's part of the American Institute of
+    CPA's (AICPA) Service Organization Control"
+- name: ISO/IEC 27001:2022
+  authority: ISO/IEC
+  source: https://enboarder.com/legal/security/
+- name: GDPR
+  authority: EU
+  source: https://enboarder.com/trust/
+- name: CCPA
+  authority: State of California
+  source: https://enboarder.com/trust/
+data_residency:
+  regions:
+  - United States
+  - Europe
+  - Asia-Pacific
+  - Canada
+  detail: >-
+    Dedicated regional storage centres; "data is subject to the laws and regulations of
+    that area". Enforced at the API layer through region-scoped base hosts
+    (api.ore / api.fra / api.syd / api.can .e1.enboarder.com).
+  source: https://enboarder.com/legal/security/
+vulnerability_disclosure: security/enboarder-vulnerability-disclosure.yml
+gaps:
+- No downloadable or gated evidence portal (no SOC 2 report request flow published).
+- No sub-processor list published (https://enboarder.com/legal/sub-processors/ returns 404).
+- No penetration-testing cadence published.
+- No status page.

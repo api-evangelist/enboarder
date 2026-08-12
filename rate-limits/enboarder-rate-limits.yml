@@ -1,0 +1,43 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/articles/4151242-enboarder-api-docs-faq
+limit_count: 0
+note: >-
+  Enboarder publishes no rate limits. The API FAQ, the Authentication & Overview article
+  and every per-endpoint article were read on 2026-08-12; none states a request quota,
+  a throttle window, a burst allowance, a 429 response, a Retry-After behaviour or any
+  X-RateLimit-*/RateLimit-* response header. An unauthenticated probe of the regional
+  gateway hosts returns 403 with no rate-limit headers, so no limit could be observed
+  live either. This is an honest zero, not an unchecked field.
+limits: []
+headers:
+  documented: []
+  observed: []
+  detail: >-
+    No rate-limit response headers are documented, and none appear on the 403 the
+    gateway returns to unauthenticated callers.
+exhaustion_status: null
+throughput_controls:
+- control: page-size cap
+  scope: report endpoints
+  value: 500 records per response
+  detail: >-
+    The forms report caps a response at 500 records and returns a `nextKey` cursor for
+    the next page. This is a response-size cap, not a request-rate limit, but it is the
+    only published throughput control.
+  source: https://help.enboarder.com/en/articles/4151230-enboarder-api-docs-forms-details
+- control: partial-content threshold
+  scope: GET /restapi/v1/profile/{id}/workflows
+  value: HTTP 206 above 10 active workflows
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- control: account-level API switch
+  scope: whole REST API
+  detail: >-
+    REST API access is enabled or disabled per account under Settings / Integration —
+    a binary entitlement rather than a metered limit.
+  source: https://help.enboarder.com/en/articles/4151242-enboarder-api-docs-faq
+gaps:
+- No published request-rate limit or quota.
+- No rate-limit response headers.
+- No documented 429 or exhaustion behaviour.
+- No documented retry or backoff guidance for clients.

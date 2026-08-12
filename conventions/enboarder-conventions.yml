@@ -1,0 +1,105 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/collections/2404029-enboarder-api-docs
+note: >-
+  Cross-cutting request/response semantics transcribed from Enboarder's published API
+  documentation. Enboarder ships no OpenAPI, so nothing here is derived from a spec.
+authentication:
+  style: api-key-header-or-oauth2-client-credentials
+  detail: >-
+    `apikey` header on the v1 URI family; OAuth 2.0 client-credentials bearer token in
+    the `Authorization` header on the v2 URI family. HTTPS is required — the FAQ states
+    "All Requests can be submitted on Https only".
+  artifact: authentication/enboarder-authentication.yml
+versioning:
+  scheme: uri-path
+  detail: >-
+    Version is carried in the path and is bound to the auth mechanism rather than to a
+    release train: /restapi/v1 and /reports are the API-key paths, /restapi/v2 and
+    /reports/v2 are the OAuth paths. Both families are current and documented
+    side-by-side; v1 is not marked deprecated anywhere in the documentation.
+  current:
+  - v1
+  - v2
+  artifact: lifecycle/enboarder-lifecycle.yml
+regions:
+  style: region-scoped-hosts
+  detail: >-
+    The base host encodes the data-residency region. A client must call the host for the
+    region its account is provisioned in; there is no global host and no routing header.
+  hosts:
+    AU: https://api.syd.e1.enboarder.com
+    EU: https://api.fra.e1.enboarder.com
+    US: https://api.ore.e1.enboarder.com
+    CA: https://api.can.e1.enboarder.com
+pagination:
+  style: opaque-cursor
+  parameter: nextKey
+  response_field: nextKey
+  page_size: 500
+  detail: >-
+    Report endpoints return a `nextKey` token in the response body; the client sends it
+    back on the next request with the same filters. The forms report documents a fixed
+    page size: "The api will return 500 records in response. To get next set of record,
+    please send this value in next request with same filters." The profile workflows
+    endpoint signals a partial result with HTTP 206 rather than 200 when more than 10
+    active workflows exist.
+  partial_content_status: 206
+  applies_to:
+  - /reports/workflows
+  - /reports/workflows/{id}/data
+  - /reports/forms/{id}/data
+  - /restapi/v1/profile/{id}/workflows
+data_format:
+  content_type: application/json
+  detail: JSON only. Date fields use the YYYY-MM-DD format.
+  date_format: YYYY-MM-DD
+idempotency:
+  supported: false
+  detail: >-
+    Enboarder documents no idempotency key, no request-replay window and no
+    Idempotency-Key header on any endpoint. `externalid` is a caller-supplied natural
+    key that uniquely identifies a running workflow and is required on update and cancel,
+    and the profile API rejects a duplicate external id with PROFILE_EXISTS — but that is
+    uniqueness enforcement on the resource, not a retry-safety contract on the request.
+    No Idempotency pointer is emitted in apis.yml because the provider does not publish
+    one.
+request_tracing:
+  supported: false
+  detail: No request-id or correlation header is documented on requests or responses.
+  audit: >-
+    Integration payloads are inspectable in-product under Setting > Integration > Audit
+    logs, which is an operator surface rather than a client-visible trace header.
+error_envelope:
+  shape: '{"message": "<human-readable string>"}'
+  code_field: code
+  detail: >-
+    Workflow endpoints return a flat `message` string on both success and failure — the
+    same envelope carries "ok" and the error text, so callers cannot key on the body
+    shape alone. The profile endpoints add a stable symbolic `code`
+    (MISSING_FIELDS, PROFILE_EXISTS, PROFILE_NOT_EXISTS, INVALID_FIELDS, ACTIVE_PROFILE).
+    Responses are not RFC 9457 application/problem+json.
+  rfc9457: false
+  artifact: errors/enboarder-error-codes.yml
+warnings:
+  header: X-Enboarder-Warning
+  values:
+  - 'yes'
+  - 'no'
+  default: 'no'
+  detail: >-
+    Optional request header on the profile endpoints controlling whether the API returns
+    warnings alongside the result. The workflow launch endpoints exhibit the same
+    posture without the header: a start date in the past launches the workflow "with
+    warning message" rather than erroring.
+rate_limiting:
+  documented: false
+  detail: No published rate limit, quota, throttle, retry-after guidance or 429 semantics.
+  artifact: rate-limits/enboarder-rate-limits.yml
+webhooks:
+  supported: true
+  direction: outbound-and-inbound
+  artifact: asyncapi/enboarder-webhooks.yml
+standards:
+  scim: '2.0'
+  artifact: conformance/enboarder-conformance.yml

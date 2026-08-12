@@ -1,0 +1,169 @@
+generated: '2026-08-12'
+method: derived
+source: https://help.enboarder.com/en/collections/2404029-enboarder-api-docs
+note: >-
+  Derived from the request and response field lists published in Enboarder's API
+  articles, NOT from an OpenAPI — Enboarder publishes no machine-readable spec, so no
+  $ref graph exists to walk. Entities and relationships below reflect only fields the
+  documentation actually names; nothing is inferred beyond what a documented payload
+  shows.
+entities:
+- name: Profile
+  description: An employee record in Enboarder, created and maintained independently of any workflow.
+  endpoints:
+  - POST /restapi/v1/profile
+  - GET /restapi/v1/profile/{id}
+  - PUT /restapi/v1/profile/{id}
+  - DELETE /restapi/v1/profile/{id}
+  - PUT /restapi/v1/profile/{id}/photo
+  - GET /restapi/v1/profile/{id}/photo
+  - GET /restapi/v1/profile/{id}/workflows
+  identifiers:
+  - id
+  - externalid
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- name: Workflow
+  description: >-
+    A running instance of an employee journey. Launched basic (single manager) or
+    advanced (multiple managers), then updated or cancelled by external id.
+  endpoints:
+  - POST /restapi/v1/startwf/basic
+  - POST /restapi/v1/startwf/bulkadvance
+  - PUT /restapi/v1/updatewf
+  - POST /restapi/v1/cancelwf
+  - GET /reports/workflows
+  - GET /reports/workflows/{id}/properties
+  - GET /reports/workflows/{id}/data
+  identifiers:
+  - id
+  - externalid
+  - referenceid
+  fields:
+  - name
+  - isActive
+  - status
+  - startDate
+  - launchDate
+  - mode
+  source: https://help.enboarder.com/en/articles/4151234-enboarder-api-docs-workflow-data
+- name: Employee
+  description: >-
+    The new hire / subject of a workflow. Carried inline on the launch and update
+    payloads rather than as a separately addressable resource.
+  fields:
+  - nhnm
+  - nhfnm
+  - nhlnm
+  - nheml
+  - nhsecondaryeml
+  - nhmob
+  - chnl
+  - nhstdt
+  source: https://help.enboarder.com/en/articles/4151224-enboarder-api-docs-launch-a-basic-workflow
+- name: Manager
+  description: >-
+    A stakeholder attached to a workflow. Basic launches carry one manager inline;
+    advanced launches and updates carry a managers[] array with a role label.
+  fields:
+  - nm
+  - fnm
+  - lnm
+  - eml
+  - mob
+  - chnl
+  - mgrlbl
+  source: https://help.enboarder.com/en/articles/4151317-enboarder-api-docs-update-a-workflow
+- name: CustomField
+  description: Name/value pair attached to a workflow or profile; definitions sync via the settings surface.
+  fields:
+  - name
+  - value
+  source: https://help.enboarder.com/en/articles/4151317-enboarder-api-docs-update-a-workflow
+- name: Form
+  description: A data-capture form; its definition, field metadata and submitted data are exported via the reports surface.
+  endpoints:
+  - GET /reports/forms
+  - GET /reports/forms/{id}/properties
+  - GET /reports/forms/{id}/data
+  identifiers:
+  - id
+  fields:
+  - name
+  source: https://help.enboarder.com/en/articles/4151230-enboarder-api-docs-forms-details
+- name: FormField
+  description: A single field on a form definition.
+  fields:
+  - id
+  - label
+  - type
+  - datatype
+  - options
+  - isRequired
+  source: https://help.enboarder.com/en/articles/4151234-enboarder-api-docs-workflow-data
+- name: ScimUser
+  description: An Enboarder user (platform account), provisioned from an identity provider.
+  endpoints:
+  - POST /scim/v2/Users
+  - GET /scim/v2/Users
+  - GET /scim/v2/Users/{id}
+  - PUT /scim/v2/Users/{id}
+  - DELETE /scim/v2/Users/{id}
+  source: https://help.enboarder.com/en/articles/5890669-scim-api-user-provisioning-and-management
+- name: Account
+  description: >-
+    The tenant. Parent/child account routing is supported on workflow update and cancel
+    via childAccountID.
+  fields:
+  - childAccountID
+  source: https://help.enboarder.com/en/articles/4151332-enboarder-api-docs-cancel-a-workflow
+relationships:
+- from: Profile
+  to: Workflow
+  kind: has_many
+  via: GET /restapi/v1/profile/{id}/workflows
+  note: Paginated with nextKey; returns HTTP 206 above 10 active workflows.
+- from: Workflow
+  to: Employee
+  kind: has_one
+  via: nhnm/nheml/nhmob inline fields
+- from: Workflow
+  to: Manager
+  kind: has_many
+  via: managers[]
+  note: A basic launch carries exactly one manager; advanced launches carry many.
+- from: Workflow
+  to: CustomField
+  kind: has_many
+  via: customfields[]
+- from: Workflow
+  to: Form
+  kind: has_many
+  via: form modules within the workflow sequence
+  confidence: medium
+  note: Implied by the reports surface exposing form data per workflow; not stated as an explicit link field.
+- from: Form
+  to: FormField
+  kind: has_many
+  via: GET /reports/forms/{id}/properties
+- from: Account
+  to: Account
+  kind: has_many
+  via: childAccountID
+  note: Parent/child account hierarchy for multi-account integration routing.
+external_keys:
+- field: externalid
+  description: >-
+    Caller-supplied identifier from the source system. It is the primary handle for
+    updating and cancelling a workflow, and is uniqueness-enforced on profiles
+    (duplicate returns PROFILE_EXISTS).
+  used_by:
+  - Profile
+  - Workflow
+- field: referenceid
+  description: Enboarder-issued identifier returned on a successful workflow launch.
+  used_by:
+  - Workflow
+gaps:
+- No id-prefix scheme is published.
+- No object reference page; entity shapes exist only as inline request/response field tables.
+- No schemas for webhook payloads.

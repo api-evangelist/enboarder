@@ -1,0 +1,84 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/collections/2404029-enboarder-api-docs
+format: proprietary
+rfc9457: false
+note: >-
+  Enboarder publishes no OpenAPI, so no 4xx/5xx responses could be derived from a spec.
+  Every entry below is transcribed from the provider's published API articles. Enboarder
+  does not publish a consolidated error reference; error strings appear inline in the
+  per-endpoint articles, and HTTP status codes are largely undocumented — the workflow
+  endpoints publish only a body `message`.
+envelope:
+  shape: '{"message": "<string>"}'
+  success_example: '{"message": "ok", "referenceid": "687368798490"}'
+  detail: >-
+    The same `message` field carries both success ("ok", "Workflow updated successfully
+    for externalid [...]") and failure text. The profile API additionally returns a
+    symbolic `code`.
+codes:
+- code: MISSING_FIELDS
+  surface: profile
+  title: Mandatory fields absent
+  remediation: Supply every required field on the profile create/update request body.
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- code: PROFILE_EXISTS
+  surface: profile
+  title: Duplicate external ID
+  remediation: >-
+    A profile already exists with this external id. Update the existing profile via
+    PUT /restapi/v1/profile/{id} instead of creating a new one.
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- code: PROFILE_NOT_EXISTS
+  surface: profile
+  title: Profile ID not found
+  remediation: Verify the profile id or external id before retrying.
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- code: INVALID_FIELDS
+  surface: profile
+  title: Field value invalid
+  remediation: Correct the offending field value; dates must be YYYY-MM-DD.
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- code: ACTIVE_PROFILE
+  surface: profile
+  title: Profile is associated with an active workflow
+  remediation: >-
+    Cancel or complete the associated workflow before deleting the profile.
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+messages:
+- message: 'Atleast one of the fields is required ["nheml","nhmob","nhmobeml"]'
+  surface: workflow-launch, workflow-update
+  meaning: >-
+    No employee contact channel was supplied. At least one of employee email, employee
+    mobile, or the combined field must be present.
+  source: https://help.enboarder.com/en/articles/4151224-enboarder-api-docs-launch-a-basic-workflow
+- message: Employee preferred channel is mobile while mobile not provided
+  surface: workflow-launch
+  meaning: >-
+    `chnl` names a preferred channel whose contact value was not supplied. Blank single
+    channels do not error — the system uses whichever channel data is present — but an
+    explicitly preferred missing channel does.
+  source: https://help.enboarder.com/en/articles/4151242-enboarder-api-docs-faq
+- message: 'Error: externalid [ENT-68736879-0005] not found'
+  surface: workflow-cancel
+  meaning: >-
+    The named workflow instance is unavailable, already complete, or already cancelled.
+  source: https://help.enboarder.com/en/articles/4151332-enboarder-api-docs-cancel-a-workflow
+statuses:
+- status: 200
+  meaning: Success. Body carries {"message":"ok"} plus a referenceid on workflow launch.
+- status: 206
+  meaning: >-
+    Partial content on GET /restapi/v1/profile/{id}/workflows when more than 10 active
+    workflows exist; continue with the returned nextKey.
+  source: https://help.enboarder.com/en/articles/5663638-enboarder-api-docs-managing-profiles
+- status: 403
+  meaning: >-
+    Observed on every unauthenticated request to the regional API gateway hosts
+    (probed 2026-08-12). Not documented by the provider.
+  method: probed
+gaps:
+- No consolidated error reference page.
+- HTTP status codes are not documented for failure cases on the workflow endpoints.
+- No machine-readable problem type URIs; responses are not application/problem+json.
+- No documented 429 / rate-limit-exceeded response.

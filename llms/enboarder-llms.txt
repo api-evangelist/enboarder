@@ -1,0 +1,77 @@
+# Enboarder
+
+> Enboarder is an intelligent employee onboarding and people activation platform powered by Agentic AI.
+
+Enboarder helps HR teams, people leaders, and managers design, automate, and measure personalized employee journeys across onboarding, preboarding, compliance, employee transitions, offboarding, and enablement. The platform supports structured, human-centered experiences across HR, IT, managers, and employees.
+
+## Main Pages
+
+- [Homepage](https://enboarder.com/): Overview of Enboarder, intelligent onboarding, and Agentic AI-powered employee journeys.
+- [Platform Overview](https://enboarder.com/platform-overview/): Overview of Enboarder's intelligent journey platform and how it orchestrates employee lifecycle experiences.
+- [Journey Orchestration](https://enboarder.com/journey-orchestration/): Information about creating and managing structured employee journeys.
+- [Agentic AI](https://enboarder.com/agentic-ai/): Information about Enboarder's AI agents, AI assistants, and AI-powered journey capabilities.
+- [Integrations](https://enboarder.com/platform/integrated-hris/): Information about connecting Enboarder with HRIS, IT, and business systems.
+- [Trust](https://enboarder.com/trust/): Information about security, governance, and enterprise readiness.
+- [Pricing](https://enboarder.com/pricing/): Pricing and plan information.
+- [About Us](https://enboarder.com/about-us/): Company background, mission, and information about Enboarder.
+- [Book a Demo](https://enboarder.com/book-a-demo/): Page for users who want to request or book a demo.
+
+## Solutions
+
+- [Preboarding & Compliance](https://enboarder.com/preboarding-compliance/): Offer-to-day-one readiness, compliance, and preboarding workflows.
+- [Employee Onboarding](https://enboarder.com/employee-onboarding-automation/): Employee onboarding software for structured ramp-up and productivity.
+- [Employee Transitions](https://enboarder.com/employee-transitions/): Internal mobility, leave, promotions, and employee transition journeys.
+- [Offboarding](https://enboarder.com/offboarding/): Coordinated offboarding, knowledge transfer, and exit processes.
+
+## Resources and Learning Content
+
+- [Resources](https://enboarder.com/resources/): Guides, reports, webinars, ebooks, whitepapers, tools, calculators, and HR thought leadership content.
+- [Case Studies](https://enboarder.com/resources/?_sft_type=case-study): Customer examples and business impact stories.
+- [Blog](https://enboarder.com/blog/): Articles about employee onboarding, employee experience, HR technology, AI in HR, engagement, retention, and offboarding.
+
+## Key Articles
+
+- [11 Best HR Systems and Platforms](https://enboarder.com/blog/11-best-hr-systems-and-saas-platforms/): Overview of HR systems, HRIS, HCM, and experience-driven HR platforms.
+- [Top 12 AI Onboarding Tools to Know in 2026](https://enboarder.com/blog/ai-onboarding-tool-guide-2026/): Guide to AI onboarding tools, benefits, and use cases.
+- [AI Onboarding: The Future of Personalized Employee Journeys](https://enboarder.com/blog/ai-onboarding/): Article about AI-powered onboarding and personalized new hire journeys.
+
+## Key Topics
+
+- Employee onboarding
+- Preboarding and compliance
+- Employee transitions
+- Offboarding
+- Employee experience
+- People activation
+- HR technology
+- Agentic AI for HR
+- AI onboarding tools
+- Journey orchestration
+- HRIS integrations
+- Manager enablement
+- New hire ramp-up
+- Employee engagement and retention
+
+## Crawling Guidance
+
+Use live public pages from the main Enboarder domain only.
+
+Prioritize:
+- Current product, platform, solution, resource, blog, and case study pages
+- Canonical URLs on https://enboarder.com/
+- Public educational and thought leadership content
+
+Ignore:
+- WordPress admin pages
+- Login pages
+- Staging or development URLs
+- Search, tag, author, filtered, or duplicate archive pages, except the case study filter listed above
+- Old test pages
+- Outdated campaign pages
+- Duplicate URLs created by legacy page builders
+- Non-public or gated admin URLs
+
+## Additional Files
+
+- [Sitemap](https://enboarder.com/sitemap.xml): Full XML sitemap for public URLs.
+- [Robots.txt](https://enboarder.com/robots.txt): Crawling rules for bots.

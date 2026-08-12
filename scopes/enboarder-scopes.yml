@@ -1,0 +1,43 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+docs: https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+note: >-
+  Enboarder publishes no OpenAPI, so these scopes were not derived from a spec — they
+  are the exact scope string the Authentication & Overview article instructs clients to
+  request on the OAuth 2.0 client-credentials token call. Enboarder does not publish a
+  dedicated scopes/permissions reference page, so descriptions below are mapped from the
+  URI families each scope gates in the documentation, not from provider-written text.
+schemes:
+- name: oauth2-client-credentials
+  flows:
+  - flow: clientCredentials
+    tokenUrls:
+    - https://auth.syd.e1.enboarder.com/oauth2/token
+    - https://auth.fra.e1.enboarder.com/oauth2/token
+    - https://auth.ore.e1.enboarder.com/oauth2/token
+scope_string_published: api/workflow.basic api/workflow.advance api/settings.all
+scopes:
+- scope: api/workflow.basic
+  description: Launch and manage single-manager (basic) Enboarder workflows.
+  flows:
+  - clientCredentials
+  sources:
+  - https://help.enboarder.com/en/articles/4151224-enboarder-api-docs-launch-a-basic-workflow
+- scope: api/workflow.advance
+  description: Launch and manage multi-manager (advanced) Enboarder workflows, including bulk advanced launches.
+  flows:
+  - clientCredentials
+  sources:
+  - https://help.enboarder.com/en/articles/4151298-enboarder-api-docs-launch-an-advanced-workflow
+- scope: api/settings.all
+  description: >-
+    Read and sync account settings surfaces — Categories, Custom Fields, Locations and
+    Brands — against a core system.
+  flows:
+  - clientCredentials
+  sources:
+  - https://help.enboarder.com/en/collections/2404029-enboarder-api-docs
+gaps:
+- No published scope reference page; the scope list is embedded in the authentication article only.
+- No scope is documented for the /scim/v2 surface, which uses bearer or basic auth rather than the scoped OAuth grant.

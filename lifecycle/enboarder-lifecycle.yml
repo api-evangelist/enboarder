@@ -1,0 +1,60 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/collections/2404029-enboarder-api-docs
+versioning:
+  scheme: uri-path
+  current:
+  - v1
+  - v2
+  detail: >-
+    Path version is bound to the authentication mechanism, not to a release train:
+    /restapi/v1 + /reports are API-key paths, /restapi/v2 + /reports/v2 are OAuth paths.
+    Both are documented as current. There is no version header, no date-based version,
+    and no published version-support window.
+  docs: https://help.enboarder.com/en/articles/4151199-enboarder-api-docs-authentication-overview
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No deprecation policy, no RFC 8594 Sunset/Deprecation header support, and no
+    end-of-life schedule is published. v1 is not marked deprecated despite v2 existing.
+    No Deprecation pointer is emitted in apis.yml.
+status_page:
+  url: null
+  detail: >-
+    No status page found. Two candidates were probed on 2026-08-12 and both are false
+    positives: https://status.enboarder.io returns 200 but redirects to the
+    enboarder.com marketing homepage, and https://enboarder.statuspage.io returns 200
+    but redirects to the Atlassian Statuspage product page — neither serves an Enboarder
+    incident feed. https://enboarder.com/status/ returns 404. No StatusPage pointer is
+    emitted in apis.yml.
+  probes:
+  - url: https://status.enboarder.io
+    status: 200
+    result: redirects to https://enboarder.com/ — not a status page
+  - url: https://enboarder.statuspage.io
+    status: 200
+    result: redirects to https://www.atlassian.com/software/statuspage — not a status page
+  - url: https://enboarder.com/status/
+    status: 404
+sla:
+  url: null
+  uptime_target: null
+  detail: No public SLA or uptime commitment. Enterprise terms are quote-scoped.
+changelog:
+  url: null
+  detail: >-
+    No dated API changelog, release-notes feed or product-updates page was found.
+    https://enboarder.com/whats-new/ and https://enboarder.com/product-updates/ both
+    return 404, and the support centre has no release-notes collection. No ChangeLog
+    pointer is emitted.
+deprecated_operations: []
+support:
+  url: https://help.enboarder.com/en/
+  detail: Intercom-hosted support centre; API documentation lives here rather than on a developer portal.
+account_control:
+  detail: >-
+    REST API access is toggled on or off per account under Settings / Integration, so
+    availability is an account-level switch rather than a published entitlement tier.
+  source: https://help.enboarder.com/en/articles/4151242-enboarder-api-docs-faq

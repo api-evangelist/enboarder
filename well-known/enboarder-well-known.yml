@@ -1,0 +1,88 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTP probe of every Enboarder host named in apis.yml
+note: >-
+  No /.well-known/ document is served on any Enboarder host. The marketing host
+  (enboarder.com) answers 404 for every path probed. The four regional API gateway
+  hosts answer 403 for every path including /.well-known/* — the gateway denies any
+  unauthenticated request rather than serving a discovery document, so a 403 here is
+  a gateway denial, not a document. The OAuth token host (auth.ore.e1.enboarder.com)
+  answers 404 for both RFC 8414 and OIDC discovery even though it serves an
+  /oauth2/token endpoint. NO WellKnown or SecurityTxt pointer is emitted in apis.yml:
+  this file records a verified absence, not a served surface.
+hosts:
+- host: https://enboarder.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.ore.e1.enboarder.com
+  note: US regional API gateway; all paths denied unauthenticated
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://api.syd.e1.enboarder.com
+  note: AU regional API gateway; all paths denied unauthenticated
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://api.fra.e1.enboarder.com
+  note: EU regional API gateway; all paths denied unauthenticated
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://api.can.e1.enboarder.com
+  note: CA regional API gateway; all paths denied unauthenticated
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://auth.ore.e1.enboarder.com
+  note: US OAuth token host; serves /oauth2/token but publishes no discovery document
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

@@ -1,0 +1,44 @@
+generated: '2026-08-12'
+method: searched
+source: https://enboarder.com/pricing/
+plan_count: 0
+note: >-
+  Enboarder publishes no priced plans. The pricing page states "We don't have
+  one-size-fits-all pricing—your quote is tailored to your company and goals" and routes
+  every visitor to a quote-request form. There is no price, no currency, no billing
+  period, no seat or workflow quota, no free tier and no self-service sign-up anywhere on
+  the public site (https://enboarder.com/sign-up/ returns 404). API access is not sold as
+  a metered tier — it is an account-level switch under Settings / Integration. plan_count
+  is a recorded zero, not a missing lookup.
+pricing_model: quote-only
+currency: null
+billing_periods: []
+plans: []
+packaging:
+  detail: >-
+    The pricing page names three capability tiers but attaches no price to any of them,
+    so they are packaging names rather than plans.
+  tiers:
+  - name: Intelligent Onboarding
+    price: null
+    includes: Structured workflows, compliance, personalized journeys, dashboards.
+  - name: AI-Assisted Employee Journeys
+    price: null
+    includes: Lifecycle support, personalized communication, automated actions.
+  - name: New Hire Enablement
+    price: null
+    includes: AI-generated ramp plans, role-based enablement, productivity dashboards.
+  add_ons:
+  - name: Compliance
+    price: null
+    includes: Federal, state and local compliance content.
+  - name: Integrations
+    price: null
+    includes: 85+ native apps, APIs, webhooks, SFTP, iPaaS.
+api_entitlement:
+  metered: false
+  detail: >-
+    No API call allowance, overage rate or API-specific SKU is published. The REST API is
+    toggled on or off per account.
+  source: https://help.enboarder.com/en/articles/4151242-enboarder-api-docs-faq
+quote_url: https://enboarder.com/book-a-demo/

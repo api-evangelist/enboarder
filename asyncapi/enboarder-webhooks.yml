@@ -1,0 +1,80 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.enboarder.com/en/articles/2938834-modules-webhook
+spec_type: none
+note: >-
+  Enboarder publishes no AsyncAPI document — no /asyncapi.yaml on any host, no event
+  catalog page, no schema registry. It does ship a real, first-class webhook surface in
+  both directions, captured here as a webhook catalog. type: Webhooks is wired in
+  apis.yml; type: AsyncAPI is NOT, because no AsyncAPI exists.
+outbound:
+  mechanism: Webhook module
+  detail: >-
+    A Webhook is a module an administrator drops into a workflow sequence. It fires when
+    the sequence reaches it — typically immediately after a form captures data — rather
+    than off a fixed catalog of system events. There is no subscribe-to-event-type model
+    and no published event-type list, so the event surface is per-workflow and
+    customer-defined.
+  methods:
+  - POST
+  - PUT
+  - GET
+  configuration:
+  - endpoint_url: destination system API endpoint (e.g. Slack, Jira, ServiceNow)
+  - headers: arbitrary key/value pairs, added via "+Add More"; used for API keys and auth headers
+  - body: >-
+      customer-authored JSON payload built from dynamic tokens representing employee
+      data and captured form fields
+  payload_types:
+  - standard form fields and employee information
+  - file attachments as base64
+  - file attachments as links
+  - file attachments as multipart form data
+  - custom JSON structures with dynamic token insertion
+  response_handling: >-
+    The response is rendered as a directory tree so individual fields can be selected and
+    mapped back onto Enboarder objects, making the webhook a two-way call rather than a
+    fire-and-forget notification.
+  failure_handling: >-
+    Failures surface in the in-product Notification Center with the error message and
+    retry information. No retry schedule, backoff policy or dead-letter behaviour is
+    published.
+  signing:
+    supported: false
+    detail: No webhook signature, HMAC secret or replay-protection scheme is documented.
+  source: https://help.enboarder.com/en/articles/2938834-modules-webhook
+inbound:
+  mechanism: Region-scoped webhook receiver endpoints
+  detail: >-
+    Enboarder publishes per-region endpoint URLs that upstream ATS/HRIS systems call to
+    launch a workflow. The receiving endpoint validates the payload and launches the
+    matching Enboarder workflow.
+  documented_sources:
+  - partner: Workable
+    trigger: candidate hired / moved to hire stage
+    source: https://help.enboarder.com/en/articles/4334706-workable-integration
+  - partner: SAP SuccessFactors
+    trigger: SAP Intelligent Services event calls the Enboarder API
+    source: https://help.enboarder.com/en/articles/4459048-sap-successfactors-integration
+  - partner: Greenhouse
+    trigger: candidate hired; region-specific endpoint URLs published (AU, EU, US, CA)
+    source: https://help.enboarder.com/en/articles/3379915-enboarder-greenhouse-integration
+  - partner: BambooHR
+    trigger: native BambooHR webhook on hire, combined with the BambooHR API
+    source: https://help.enboarder.com/en/articles/3380022-enboarder-bamboohr-integration
+  - partner: Lever
+    trigger: candidate hired
+    source: https://help.enboarder.com/en/articles/3379862-enboarder-lever-integration-for-launching-workflows
+  - partner: ServiceNow
+    source: https://help.enboarder.com/en/articles/5702644-servicenow-integration
+observability:
+  audit_logs: >-
+    Full inbound and outbound payloads are viewable in-product under
+    Setting > Integration > Audit logs.
+  source: https://help.enboarder.com/en/articles/1706630-integration-information
+gaps:
+- No AsyncAPI document.
+- No published event-type catalog — outbound events are defined per workflow by the customer.
+- No webhook payload schemas published.
+- No signature verification scheme.
+- No documented retry/backoff policy.
