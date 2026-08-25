@@ -2,13 +2,20 @@
   "repo": "enboarder",
   "feeds": [
     {
+      "source": "https://help.enboarder.com/en/feed.xml",
+      "feed_url": "https://help.enboarder.com/en/feed.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://help.enboarder.com/en/",
       "feed_url": "https://help.enboarder.com/en/feed.xml",
       "title": "",
-      "saved": 2,
+      "saved": 0,
       "method": "discovered"
     }
   ],
-  "post_count": 2,
-  "fetched": "2026-08-15T12:22:01Z"
+  "post_count": 25,
+  "fetched": "2026-08-22T20:20:02Z"
 }
