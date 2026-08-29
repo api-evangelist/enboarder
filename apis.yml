@@ -9,6 +9,17 @@ description: 'Enboarder is an employee onboarding and people-activation platform
   configurable JSON payloads to downstream systems such as Slack, Jira and ServiceNow.
   API access is region-scoped across Australia, the EU, the United States and Canada,
   and is authenticated with either an account API key or OAuth 2.0 client credentials.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://enboarder.com/wp-content/uploads/og-home.jpg
 url: https://raw.githubusercontent.com/api-evangelist/enboarder/refs/heads/main/apis.yml
 x-type: company
