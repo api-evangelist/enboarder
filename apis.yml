@@ -47,7 +47,7 @@ tags:
 - Employee Onboarding
 - Employee Experience
 - HR Technology
-- Workflow-Automation
+- Workflow Automation
 - SCIM
 - Identity Provisioning
 - Webhook
@@ -63,6 +63,7 @@ tags_raw:
 - Identity Provisioning
 - Webhooks
 - Offboarding
+- Workflow-Automation
 apis:
 - aid: enboarder:enboarder-rest-api
   name: Enboarder REST API
